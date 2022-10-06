@@ -14,12 +14,12 @@
 </div>
 
 <script type="module">
-import PhotoSwipeLightbox from '/photoswipe/photoswipe-lightbox.esm.js';
+import PhotoSwipeLightbox from '/photoswipe/photoswipe-lightbox.esm.min.js';
 const lightbox = new PhotoSwipeLightbox({
   bgOpacity: 1.0,
   gallery: '#gallery',
   children: 'a',
-  pswpModule: () => import('/photoswipe/photoswipe.esm.js')
+  pswpModule: () => import('/photoswipe/photoswipe.esm.min.js')
 });
 lightbox.init();
 </script>
