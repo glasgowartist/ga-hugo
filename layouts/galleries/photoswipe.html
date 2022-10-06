@@ -1,0 +1,26 @@
+{{ define "main" }}
+<div id="gallery" class="pswp-gallery">
+{{ range where $.Site.Data.artworks.artworks "id" "in" .Params.artworks }}
+  {{ $caption := (printf "%s, %s, %s, %d" .title .media .dim .year) }}
+  {{ $img := resources.Get (printf "/images/%s" .img) }}
+  {{ $img := $img.Resize (printf "%dx%d webp" $img.Width $img.Height) }}
+  <figure class="mt-6 flex flex-col">
+      <a href="{{ $img.RelPermalink }}" data-pswp-width="{{ $img.Width }}" data-pswp-height="{{ $img.Height }}">
+          <img class="w-full" src="{{ $img.RelPermalink }}" alt="{{ .img_description }}" title="{{ $caption }}"/>
+      </a>
+      <figcaption class="pr-3 pt-1 text-sm lg:text-base text-gray-700 self-end">{{ $caption }}</figcaption>
+  </figure>
+{{ end }}
+</div>
+
+<script type="module">
+import PhotoSwipeLightbox from '/photoswipe/photoswipe-lightbox.esm.js';
+const lightbox = new PhotoSwipeLightbox({
+  bgOpacity: 1.0,
+  gallery: '#gallery',
+  children: 'a',
+  pswpModule: () => import('/photoswipe/photoswipe.esm.js')
+});
+lightbox.init();
+</script>
+{{ end }}

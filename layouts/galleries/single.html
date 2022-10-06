@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="w-full max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+<main>
+<article class="mx-auto prose prose-lg">
+<h1>{{ .Title }}</h1>
+{{ range where $.Site.Data.artworks.artworks "id" "in" .Params.artworks }}
+<p>Hello {{ . }}</p>
+{{ end }}
+
+</article>
+</main>
+</div>
+{{ end }}

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{ .Language.Lang }}">
+  <head>
+    {{ partial "head.html" . }}
+  </head>
+  <body>
+  {{ partial "navbar.html" . }}
+  <div class="max-w-5xl mx-auto mt-4 mb-10 px-5">
+  {{ block "main" . }}
+  Main block - should be overridden in other templates.
+  {{ end }}
+  </div>
+  </body>
+</html>
