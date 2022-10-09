@@ -3,12 +3,14 @@
   <article class="p-5 mb-4 border rounded-lg shadow-lg">
     <a href="{{ .RelPermalink }}">
       <div class="flex flex-col lg:flex-row">
-        {{ $first_id := index .Params.artworks 0 }}
-        {{ $artwork := (index (where $.Site.Data.artworks.artworks "id" $first_id) 0) }}
-        {{ $img := resources.Get (printf "/images/%s" $artwork.img) }}
-        {{ $img := $img.Resize (printf "%dx%d webp" $img.Width $img.Height) }}
+        {{- $first_id := index .Params.artworks 0 -}}
+        {{- $artwork := (index (where $.Site.Data.artworks.artworks "id" $first_id) 0) -}}
+        {{- $img := resources.Get (printf "/images/%s" $artwork.img) -}}
+        {{- $srcset_data := partial "srcset.html" (dict "context" . "img_orig" $img "sizes" (slice 500 800 1000 2000)) -}}
+        {{- $srcset := $srcset_data.srcset -}}
+        {{- $img = $img.Resize "1000x webp" -}}
         <div class="mb-4 w-full lg:w-1/2">
-            <img src="{{ $img.RelPermalink }}" class="w-full" alt="{{ $artwork.title }}">
+            <img {{ printf "srcset=%q" $srcset | safeHTMLAttr }} src="{{ $img.RelPermalink }}" class="w-full" alt="{{ $artwork.title }}">
         </div>
         <div class="md:pl-5 lg:w-1/2">
           <h1 class="text-xl text-gray-700">{{ .Params.title }}</h1>
