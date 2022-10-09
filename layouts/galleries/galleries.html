@@ -8,7 +8,9 @@
         {{- $img := resources.Get (printf "/images/%s" $artwork.img) -}}
         {{- $srcset_data := partial "srcset.html" (dict "context" . "img_orig" $img "sizes" (slice 500 800 1000 2000)) -}}
         {{- $srcset := $srcset_data.srcset -}}
-        {{- $img = $img.Resize "1000x webp" -}}
+        {{- if gt $img.Width 1000 -}}
+          {{- $img = $img.Resize "1000x webp" -}}
+        {{- end }}
         <div class="mb-4 w-full lg:w-1/2">
             <img {{ printf "srcset=%q" $srcset | safeHTMLAttr }} src="{{ $img.RelPermalink }}" class="w-full" alt="{{ $artwork.title }}">
         </div>

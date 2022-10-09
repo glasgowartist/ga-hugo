@@ -1,17 +1,20 @@
 {{ define "main" }}
 <div id="gallery" class="pswp-gallery">
 {{ range where $.Site.Data.artworks.artworks "id" "in" .Params.artworks }}
-  {{ $caption := printf "%s, %s" .title .media }}
-  {{ if .dim }}
-    {{ $caption = printf "%s, %s" $caption .dim}}
-  {{ end }}
-  {{ if .year }}
-    {{ $caption = printf "%s, %d" $caption .year }}
-  {{ end }}
-  {{ $img := resources.Get (printf "/images/%s" .img) }}
-  {{ $max_width := $img }}
-  {{ $srcset_data := partial "srcset.html" (dict "context" . "img_orig" $img "sizes" (slice 500 800 1000 2000)) }}
-  {{ $srcset := $srcset_data.srcset }}
+  {{- $caption := printf "%s, %s" .title .media -}}
+  {{- if .dim -}}
+    {{- $caption = printf "%s, %s" $caption .dim -}}
+  {{- end -}}
+  {{- if .year -}}
+    {{- $caption = printf "%s, %d" $caption .year -}}
+  {{- end -}}
+  {{- $img := resources.Get (printf "/images/%s" .img) -}}
+  {{- $max_width := $img -}}
+  {{- $srcset_data := partial "srcset.html" (dict "context" . "img_orig" $img "sizes" (slice 500 800 1000 2000)) -}}
+  {{- $srcset := $srcset_data.srcset -}}
+  {{- if gt $img.Width 1000 -}}
+    {{- $img = $img.Resize "1000x webp" -}}
+  {{- end }}
   <figure class="mt-6 flex flex-col">
       <a href="{{ $img.RelPermalink }}" {{ printf "data-pswp-srcset=%q" $srcset | safeHTMLAttr }} data-pswp-width="{{ $srcset_data.max_width }}" data-pswp-height="{{ $srcset_data.max_height }}">
           <img class="w-full" {{ printf "srcset=%q" $srcset | safeHTMLAttr }} src="{{ $img.RelPermalink }}" alt="{{ .img_description }}" title="{{ $caption }}"/>
