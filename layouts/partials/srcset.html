@@ -10,6 +10,7 @@
   {{- errorf "srcset partial needs sizes parameter" -}}
 {{- end -}}
 {{- $src_set := slice -}}
+{{- $original_added := false }}
 {{- $add_original := false }}
 {{- $max_width := 0 -}}
 {{- $max_height := 0 -}}
@@ -19,12 +20,15 @@
     {{- $src_set = $src_set | append (printf "%s %dw" $resized.RelPermalink (int $size)) -}}
     {{- $max_width = (math.Max $size $max_width) }}
     {{- $max_height = (math.Max $resized.Height $max_height) }}
+    {{- if eq $orig.Width $size -}}
+      {{- $original_added = true -}}
+    {{- end -}}
   {{- else -}}
     {{/* We have at least one size which is bigger than the original, so add the original to the set */}}
     {{- $add_original = true -}}
   {{- end -}}
 {{- end -}}
-{{ if $add_original }}
+{{- if and $add_original (not $original_added) -}}
   {{- $src_set = $src_set | append (printf "%s %dw" ($orig.Resize (printf "%dx webp" (int $orig.Width))).RelPermalink (int $orig.Width)) -}}
 {{ end }}
 {{- return (dict "srcset" (delimit $src_set ", ") "max_width" $max_width "max_height" $max_height) -}}
