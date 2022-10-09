@@ -1,0 +1,30 @@
+{{/* The original full size image */}}
+{{- $orig := .img_orig -}}
+{{ print $orig }}
+{{- if not $orig -}}
+  {{- errorf "srcset partial needs img_orig parameter" -}}
+{{- end -}}
+{{/* The sizes for the sourceset */}}
+{{- $image_sizes := .sizes -}}
+{{- if not $image_sizes -}}
+  {{- errorf "srcset partial needs sizes parameter" -}}
+{{- end -}}
+{{- $src_set := slice -}}
+{{- $add_original := false }}
+{{- $max_width := 0 -}}
+{{- $max_height := 0 -}}
+{{- range $size := $image_sizes -}}
+  {{- if ge $orig.Width $size -}}
+    {{- $resized := $orig.Resize (printf "%dx webp" (int $size)) -}}
+    {{- $src_set = $src_set | append (printf "%s %dw" $resized.RelPermalink (int $size)) -}}
+    {{- $max_width = (math.Max $size $max_width) }}
+    {{- $max_height = (math.Max $resized.Height $max_height) }}
+  {{- else -}}
+    {{/* We have at least one size which is bigger than the original, so add the original to the set */}}
+    {{- $add_original = true -}}
+  {{- end -}}
+{{- end -}}
+{{ if $add_original }}
+  {{- $src_set = $src_set | append (printf "%s %dw" ($orig.Resize (printf "%dx webp" (int $orig.Width))).RelPermalink (int $orig.Width)) -}}
+{{ end }}
+{{- return (dict "srcset" (delimit $src_set ", ") "max_width" $max_width "max_height" $max_height) -}}
