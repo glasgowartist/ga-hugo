@@ -10,6 +10,8 @@
         {{- $srcset := $srcset_data.srcset -}}
         {{- if gt $img.Width 1000 -}}
           {{- $img = $img.Resize "1000x webp" -}}
+        {{- else -}}
+          {{- $img = $img.Resize (printf "%dx webp" $img.Width) -}}
         {{- end }}
         <div class="mb-4 w-full lg:w-1/2">
             <img {{ printf "srcset=%q" $srcset | safeHTMLAttr }} src="{{ $img.RelPermalink }}" class="w-full" alt="{{ $artwork.title }}">

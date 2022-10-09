@@ -14,6 +14,8 @@
   {{- $srcset := $srcset_data.srcset -}}
   {{- if gt $img.Width 1000 -}}
     {{- $img = $img.Resize "1000x webp" -}}
+  {{- else -}}
+    {{- $img = $img.Resize (printf "%dx webp" $img.Width) -}}
   {{- end }}
   <figure class="mt-6 flex flex-col">
       <a href="{{ $img.RelPermalink }}" {{ printf "data-pswp-srcset=%q" $srcset | safeHTMLAttr }} data-pswp-width="{{ $srcset_data.max_width }}" data-pswp-height="{{ $srcset_data.max_height }}">
