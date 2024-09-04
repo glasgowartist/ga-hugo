@@ -11,7 +11,7 @@ hugo mod init <module_name>
 
 ```toml
 languageCode = 'en-GB'
-title = 'The Artist's Name
+title = 'The name of the artist'
 
 [params]
   description = "Description of the artist"
@@ -53,21 +53,19 @@ title = 'The Artist's Name
     source = "static"
     target = "static"
 ```
+4. Build the site
+------------------
 
-3. Setup Tailwind and PostCss
------------------------------
+Run `hugo npm mod pack` to generate `package.json` and run `npm install`.
 
-This should be easier. For now, copy tailwing.config.js, postcss.config.js package.json and
-assets/css from another project.
+Run `hugo`.
 
-Make sure the site builds (run `hugo`).
-
-4. Customize the index and about pages
+5. Customize the index and about pages
 --------------------------------------
 
 Add `layouts/index.html` and `content/about/_index.html`.
 
-5. Add images and galleries
+6. Add images and galleries
 ---------------------------
 
 - Create galleries/_index.md with front matter for menu
@@ -100,11 +98,4 @@ layout = "photoswipe"
 +++
 
 The artworks in each gallery should each correspond to an id in the `artworks.toml` file.
-
-
-
-
-
-
-
 
