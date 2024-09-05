@@ -56,7 +56,7 @@ title = 'The name of the artist'
 4. Build the site
 ------------------
 
-Run `hugo npm mod pack` to generate `package.json` and run `npm install`.
+Run `hugo mod npm pack` to generate `package.json` and run `npm install`.
 
 Run `hugo`.
 

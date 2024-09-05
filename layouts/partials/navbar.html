@@ -24,7 +24,7 @@
         <div class="hidden sm:ml-9 sm:flex sm:space-x-8">
           {{ $currentPage := . }}
           {{ range .Site.Menus.main }}
-          <a class="{{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} border-red-600 text-gray-900 {{ else }} border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ end }} inline-flex items-center px-1 pt-1 border-b-2 text-lg font-medium" href="{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>
+          <a class="{{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} border-red-600 text-gray-900 {{ else }} border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 {{ end }} inline-flex items-center px-1 pt-1 border-b-2 text-lg font-medium print:hidden" href="{{ .URL }}" title="{{ .Title }}">{{ .Name }}</a>
           {{ end }}
         </div>
       </div>
